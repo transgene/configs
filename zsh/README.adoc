@@ -1,0 +1,14 @@
+= Configuring ZSH
+
+== Prerequisites
+
+. https://docs.microsoft.com/en-us/windows/wsl/install-win10[WSL distro is installed]
+. Patched font is installed. I'm currently using https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode[Fira Code Nerd Font]
+
+== Configuration
+
+. Install ZSH
+. Install https://github.com/ohmyzsh/ohmyzsh[Oh My Zsh]
+. Copy link:.zshrc[.zshrc] to `~`
+. Run `p10k configure` to setup https://github.com/romkatv/powerlevel10k[powerlevel10k theme]
+

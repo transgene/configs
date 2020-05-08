@@ -1,0 +1,16 @@
+= Configuring Neovim
+
+== Prerequisites
+
+. Patched font is installed. I'm currently using https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode[Fira Code Nerd Font]
+. https://nodejs.org/en/download/[Node.js] is installed. This is needed for https://github.com/neoclide/coc.nvim[CoC.nvim]
+
+== Configuration
+
+. Install https://github.com/neovim/neovim/wiki/Installing-Neovim[Neovim]
+. Install https://github.com/junegunn/vim-plug[vim-plug]
+. Copy link:init.vim[init.vim] to `~/.config/nvim`
+. Copy link:coc-settings.json[coc-settings.json] to `~/.config/nvim`
+. Open Neovim and install the plugins: `:PlugInstall`
+. Wait until CoC installs its extensions
+

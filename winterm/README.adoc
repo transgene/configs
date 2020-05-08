@@ -1,0 +1,17 @@
+= Configuring Windows Terminal
+
+== Prerequisites
+
+. https://docs.microsoft.com/en-us/windows/wsl/install-win10[WSL distro is installed]
+. Patched font is installed. I'm currently using https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/FiraCode[Fira Code Nerd Font]
+
+== Configuration
+
+. Install WinTerm from either MS Store or https://github.com/microsoft/terminal[its GitHub repo]
+. Open WinTerm's settings file
+. Overwrite its contents with link:settings.json[settings.json]
+. Configure `startingDirectory` and `icon` properties of WSL terminal's entry and save
+
+== Might-be-helpful links
+
+* https://atomcorp.github.io/themes/[WinTerm Themes]

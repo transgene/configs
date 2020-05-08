@@ -1,0 +1,5 @@
+= Configuring Vim
+
+== Configuration
+
+This file is a stub, because I'm too lazy to fill this readme. I'm now switching to Neovim so you can find a proper README link:../nvim/README.adoc[in its folder].
