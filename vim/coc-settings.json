@@ -1,0 +1,4 @@
+{
+    "diagnostic.displayByAle": true,
+    "tsserver.npm": "/usr/bin/npm"
+}

@@ -1,89 +1,123 @@
+"#==============================================================#
+"# Plugins                                                      #
+"#==============================================================#
 call plug#begin('~/.vim/plugged')
-Plug 'vim-airline/vim-airline'
-Plug 'tpope/vim-fugitive'
-Plug 'preservim/nerdtree'
+"#==============================================================#
+"# User experience (UI, code completion, search etc.)           #
+"#==============================================================#
 Plug 'lifepillar/vim-solarized8'
-
-Plug 'habamax/vim-asciidoctor'
-
-Plug 'lilydjwg/colorizer'
+Plug 'ryanoasis/vim-devicons'
+Plug 'vim-airline/vim-airline'
 Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-
-Plug 'elzr/vim-json'
+Plug 'tpope/vim-fugitive'
+Plug 'preservim/nerdtree'
+Plug 'godlygeek/tabular'
+"#==============================================================#
+"# Language-related (syntax highlighting etc.)                  #
+"#==============================================================#
+Plug 'lilydjwg/colorizer'
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 call plug#end()
 
-set ttimeoutlen=10  "key code delay (ms); for eliminating delay when switching between modes
-set lazyredraw      "redraw the screen only when needed
-set noshowmode      "to get rid of thing like --INSERT--
-set shortmess+=c    "to get rid of the file name displayed in the command line bar
+"#==============================================================#
+"# General settings (aka "hacks")                               #
+"#==============================================================#
 
-syntax enable       "enable syntax processing
-filetype plugin indent on  "load filetype-specific indent files
-set tabstop=4       "number of visual spaces per TAB
-set softtabstop=4   "number of spaces in TAB when editing
-set shiftwidth=4
-set expandtab       "converts TABs to spaces
-set number          "show line numbers
-set signcolumn=yes
-set wildmenu        "visual autocomplete for the commands
-set showmatch       "highlight matching [({})]
-set foldenable      "enable folding (e.g. functions' bodies)
-set foldlevelstart=10   "starting fold level (not lines, more like 'nesting' level)
-set foldnestmax=10      "max number of nested folds
-set foldmethod=syntax   "fold based on indentation level
+"#==============================================================#
+"# Color settings                                               #
+"#==============================================================#
+set termguicolors                      " Enable TrueColor
+set background=dark                    " Dark background for editor
+colorscheme solarized8_high            " Color scheme name
+hi LineNr guibg=NONE ctermbg=NONE      " Transparent line number column for solarized8_high theme
 
-set incsearch       "search as chars are entered
-set hlsearch        "highlight matches
+"#==============================================================#
+"# UI settings                                                  #
+"#==============================================================#
+syntax enable       " Enable syntax highlighting
+set noshowmode      " To hide messages like -- INSERT --
+set number          " Show line numbers
+set wildmenu        " Visual autocomplete for the commands
 
-"Color settings
-set termguicolors
-set background=dark
-colorscheme solarized8_high
-hi LineNr ctermbg=NONE guibg=NONE
-"hi Normal guibg=#125161
-let g:solarized_extra_hi_groups=1
+"#==============================================================#
+"# UX settings                                                  #
+"#==============================================================#
+set expandtab              " Convert TABs to spaces
+set tabstop=4              " Number of spaces in TAB
+set softtabstop=4          " Number of spaces in TAB when editing text
+set shiftwidth=4           " Number of spaces for each step of (auto)indent
+set foldlevelstart=10      " Starting fold level (not lines, more like 'nesting' level)
+set foldnestmax=10         " Max number of nested folds
+set foldmethod=syntax      " Folding based on indentation level
+set incsearch              " Search as chars are entered
+set hlsearch               " Highlight matches
 
-"NERDTree settings
-map <Esc>1 :NERDTreeToggle<CR>
+"#==============================================================#
+"# Autocmds                                                     #
+"#==============================================================#
+" 🠗 Disable insertion of comments when creating a new line with "o" or Enter 
+autocmd BufNewFile,BufRead * setlocal formatoptions-=o formatoptions-=r
 
-"
-let g:ale_lint_on_insert_leave=1
-"let g:ale_linters_explicit = 1
+"#==============================================================#
+"# FileType settings                                            #
+"#==============================================================#
+filetype plugin indent on                                  " Load filetype-specific indent files
+autocmd FileType json syntax match Comment +\/\/.\+$+      " Disable red comments in JSON (JSONC, anyone?)
+
+"#==============================================================#
+"# Airline settings                                             #
+"#==============================================================#
+let g:airline_powerline_fonts = 1           " Enable fancy font characters
+" 🠗 Define object for Airline symbols if it doesn't exist
+if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+endif
+let g:airline_symbols.notexists = ' '      " Symbol for untracked files
+
+"#==============================================================#
+"# ALE settings                                                 #
+"#==============================================================#
+let g:ale_echo_msg_error_str = 'E'                            " Prefix for 'Error' severity level
+let g:ale_echo_msg_warning_str = 'W'                          " Prefix for 'Warning' severity level
+let g:ale_echo_msg_info_str = 'I'                             " Prefix for 'Info' severity level
+let g:ale_sign_error = ''                                    " Error messages symbol
+let g:ale_sign_warning = ''                                  " Warning messages symbol
+let g:ale_sign_info = ''                                     " Info messages symbol
+hi ALEErrorSign guifg=#C30500 guibg=NONE                      " Highlight for error messages
+hi ALEWarningSign guifg=#ffa30f guibg=NONE                    " Highlight for warning messages
+hi ALEInfoSign guifg=#f5e400 guibg=NONE                       " Highlight for info messages
+" 🠗 List of formatting fixing tools 
 let g:ale_fixers = {
     \   '*': ['remove_trailing_lines', 'trim_whitespace'],
     \   'javascript': ['prettier', 'eslint'],
     \   'typescript': ['prettier', 'eslint'],
-    \}
-nnoremap <leader>f :ALEFix<CR>
-"let g:ale_fix_on_save=1
-"let g:ale_open_list=1
-"let g:ale_list_window_size=5
-"augroup CloseLoclistWindowGroup
-"    autocmd!
-"    autocmd QuitPre * if empty(&buftype) | lclose | endif
-"augroup END
+    \}  
+" 🠗 Mapping for fixing command 
+nnoremap <leader>f :ALEFix<CR>  
 
-"coc.nvim
-"inoremap <silent><expr> <c-space> coc#refresh()
-set hidden
+"#==============================================================#
+"# Coc.nvim settings                                            #
+"#==============================================================#
+let g:coc_global_extensions = [
+    \ 'coc-json',
+    \ 'coc-tsserver'
+    \]
+" 🠗 Navigate forward with Tab in pop-up 
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+" 🠗 Navigate backward with Shift-Tab in pop-up 
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" 🠗 Choose first pop-up item with Enter 
 inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-"nnoremap <silent> K :call <SID>show_documentation()<CR>
-"function! s:show_documentation()
-"    if (index(['vim','help'], &filetype) >= 0)
-"        execute 'h '.expand('<cword>')
-"    else
-"        call CocAction('doHover')
-"    endif
-"endfunction
+" 🠗 Initiate code action for the message on the current line
+nmap <leader>ca <Plug>(coc-codeaction)
 
-"let g:deoplete#enable_at_startup = 1
+"#==============================================================#
+"# NERDTree settings                                            #
+"#==============================================================#
+" 🠗 Toggle the tree pane with Alt-1
+map <M-1> :NERDTreeToggle<CR>  
+" 🠗 Close vim if NERDTree is the only window left
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-autocmd FileType json syntax match Comment +\/\/.\+$+
